@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace RentalKendaraan_096.Models
 {
@@ -9,7 +10,7 @@ namespace RentalKendaraan_096.Models
         {
             Peminjaman = new HashSet<Peminjaman>();
         }
-
+        [DisplayName("Customer")]
         public int IdCustomer { get; set; }
         public string NamaCustomer { get; set; }
         public string Nik { get; set; }
