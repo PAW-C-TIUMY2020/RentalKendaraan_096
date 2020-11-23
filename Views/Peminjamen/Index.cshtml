@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentalKendaraan_096.Models.Peminjaman>
+﻿@model PaginatedList<RentalKendaraan_096.Models.Peminjaman>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,23 +9,38 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm("Index", "Peminjamen", FormMethod.Get))
+{
+    <p>
+        Tipe jaminan: @Html.DropDownList("ktsd", "Pilih jaminan")
+        Cari Data : @Html.TextBox("searchString")
+        <input type="submit" value="Filter" />
+    </p>
+}
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TglPeminjaman)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                    Tanggal Peminjaman
+                </a>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Biaya)
+                Biaya
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCostumerNavigation)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                    Customer
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdJaminanNavigation)
+                Jaminan
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdKendaraanNavigation)
+                Kendaraan
             </th>
             <th></th>
         </tr>
@@ -38,10 +53,10 @@
                     @Html.DisplayFor(modelItem => item.TglPeminjaman)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Biaya)
+                    @Html.DisplayFor(modelItem => item.IdCostumerNavigation.NamaCustomer)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdCostumerNavigation.NamaCustomer)
+                    @Html.DisplayFor(modelItem => item.Biaya)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdJaminanNavigation.NamaJaminan)
@@ -72,3 +87,24 @@
         }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex -1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex +1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

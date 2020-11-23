@@ -20,6 +20,7 @@ namespace RentalKendaraan_096.Models
         public string NoPolisi { get; set; }
 
         [Required(ErrorMessage = "No Stnk wajib diisi!")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Hanya boleh diisi dengan angka")]
         public string NoStnk { get; set; }
 
         [Required(ErrorMessage = "Id Jenis Kendaraan wajib diisi!")]
